@@ -26,6 +26,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -58,6 +59,11 @@ body {
   flex-wrap: wrap;
 }
 
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
 .nav a,
 .nav .nav-link {
   text-decoration: none;
