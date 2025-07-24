@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchHealthUnits, fetchMunicipios } from '../../api';
 import GoogleMap from "../Googlemap";
 import MessageModal from "../MessageModal";
@@ -44,15 +44,15 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         setModalMessage(message);
         setShowModal(true);
     };
-    const populateMunicipios = async () => {
+    const populateMunicipios = useCallback(async () => {
         try {
             const municipiosData = await fetchMunicipios();
             setMunicipios(municipiosData.sort());
         } catch (e) {
             showMessageModal("");
         }
-    };
-    const fetchUnits = async () => {
+    }, []);
+    const fetchUnits = useCallback(async () => {
         if (!category) {
             return;
         }
@@ -71,7 +71,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [category, municipio]);
     const handleTraceRoute = (unit: HealthUnit) => {
         setSelectedDestination({
             place_id: unit.id,
@@ -81,12 +81,12 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
     };
     useEffect(() => {
         populateMunicipios();
-    }, []);
+    }, [populateMunicipios]);
     useEffect(() => {
         if (category) {
             fetchUnits();
         }
-    }, [category, municipio]);
+    }, [category, municipio, fetchUnits]);
     const renderResults = () => {
         if (loading) {
             return (
@@ -197,16 +197,6 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
             />
-            <section className="footer-section">
-                <footer className="footer">
-                    <div className="footer-logos">
-                        <img src={require("../../images/inova.png")} alt="Logo INOVA" className="footer-logo" />
-                        <img src={require("../../images/icon2.png")} alt="Logo Governo" className="footer-logo" />
-                        <img src={require("../../images/secti.png")} alt="Logo SECTI" className="footer-logo" />
-                    </div>
-                    <div className="footer-contact">Contato: buscasusgp2@gmail.com</div>
-                </footer>
-            </section>
         </div>
     );
 };

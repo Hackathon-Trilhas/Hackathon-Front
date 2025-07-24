@@ -5,7 +5,7 @@ import homeImage from "./images/home.png";
 import iconImage from "./images/icon2.png";
 import { Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
 import HealthUnitsSearch from "./components/HealthUnitsSearch/HealthUnitsSearch";
-import Footer from "./components/Footer/Footer";
+import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   const navigate = useNavigate();
