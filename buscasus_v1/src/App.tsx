@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import "./App.css";
 import homeImage from "./images/home.png";
 import iconImage from "./images/icon2.png";
-import { Route, Routes, Link, useNavigate, useLocation } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import HealthUnitsSearch from "./components/HealthUnitsSearch/HealthUnitsSearch";
 import Footer from "./components/Footer/Footer";
 
@@ -99,48 +99,11 @@ const App: React.FC = () => {
               </div>
             </div>
           </section>
-          
-          <section className="features">
-            <div className="container">
-              <h1 className="features-main-title">Conheça as funcionalidades</h1>
-              <div className="features-grid">
-                <div className="feature-card">
-                  <div className="feature-image-container">
-                    <img src={require("./images/lupa.png")} alt="Ícone de lupa - Dados de saúde" className="feature-image" />
-                  </div>
-                  <div className="feature-content">
-                    <h2 className="feature-title">Conheça dados importantes de saúde</h2>
-                    <p className="feature-description">
-                      Acesse seu prontuário, resultados de exames e vacinas registradas em um só lugar.
-                    </p>
-                    <button className="feature-button">
-                      <Link to="/dados-saude" style={{ textDecoration: "none", color: "white" }}>Clique aqui →</Link>
-                    </button>
-                  </div>
-                </div>
-                <div className="feature-card">
-                  <div className="feature-image-container">
-                    <img src={require("./images/medic.png")} alt="Ícone de localização" className="feature-image" />
-                  </div>
-                  <div className="feature-content">
-                    <h2 className="feature-title">Veja a unidade mais próxima</h2>
-                    <p className="feature-description">
-                      Descubra de forma simples onde estão os postos, clínicas e hospitais do SUS no mapa interativo.
-                    </p>
-                    <button className="feature-button">
-                      <Link to="/unidades-proximas" style={{ textDecoration: "none", color: "white" }}>Clique aqui →</Link>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
         </>
       ) : (
         <div className="modal-wrapper">
           <Routes>
             <Route path="/" element={<></>} />
-            <Route path="/dados-saude" element={<h1>Dados de Saúde</h1>} />
             <Route path="/unidades-proximas" element={<h1>Unidades Próximas</h1>} />
           </Routes>
         </div>
