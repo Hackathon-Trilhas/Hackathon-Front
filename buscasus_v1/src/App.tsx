@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import "./App.css";
 import homeImage from "./images/home.png";
 import iconImage from "./images/icon2.png";
@@ -102,6 +102,7 @@ const App: React.FC = () => {
               </div>
             </div>
           </section>
+          <Footer />
            <Bubble
       typebot="faq-endyvb9"
       apiHost="https://typebot.io"
