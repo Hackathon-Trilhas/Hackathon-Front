@@ -102,7 +102,7 @@ const App: React.FC = () => {
               </div>
             </div>
           </section>
- <Bubble
+           <Bubble
       typebot="faq-endyvb9"
       apiHost="https://typebot.io"
       previewMessage={{
@@ -119,7 +119,7 @@ const App: React.FC = () => {
         },
         previewMessage: { backgroundColor: "#D1FAE5", textColor: "#000" },
       }}
-    />
+    />  
         </>
       ) : (
         <div className="modal-wrapper">
@@ -129,28 +129,6 @@ const App: React.FC = () => {
           </Routes>
         </div>
       )}
-      <section>
-        <Bubble
-          typebot="faq-endyvb9"
-          apiHost="https://typebot.io"
-          previewMessage={{
-            message: "Tire sua Dúvida!",
-            autoShowDelay: 3000,
-            avatarUrl:
-              "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/hostAvatar?v=1753447962746",
-          }}
-          theme={{
-            button: {
-              backgroundColor: "#D1FAE5",
-              customIconSrc:
-                "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/bubble-icon?v=1753457917053",
-            },
-            previewMessage: { backgroundColor: "#D1FAE5", textColor: "#000" },
-          }}
-        />
-      </section>
-      <Footer />
-
       {showConsulta && (
         <div className="modal-overlay" onClick={() => setShowConsulta(false)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', overflow: 'hidden', zIndex: 1000 }}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', maxHeight: '100vh', overflowY: 'auto' }}>
