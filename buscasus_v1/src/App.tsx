@@ -102,6 +102,24 @@ const App: React.FC = () => {
               </div>
             </div>
           </section>
+ <Bubble
+      typebot="faq-endyvb9"
+      apiHost="https://typebot.io"
+      previewMessage={{
+        message: "Tire sua Dúvida!",
+        autoShowDelay: 3000,
+        avatarUrl:
+          "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/hostAvatar?v=1753447962746",
+      }}
+      theme={{
+        button: {
+          backgroundColor: "#D1FAE5",
+          customIconSrc:
+            "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/bubble-icon?v=1753457917053",
+        },
+        previewMessage: { backgroundColor: "#D1FAE5", textColor: "#000" },
+      }}
+    />
         </>
       ) : (
         <div className="modal-wrapper">
