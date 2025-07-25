@@ -11,3 +11,6 @@ export interface User {
   username?: string;
   email?: string;
 }
+export interface HealthUnitsApiResponse {
+  [key: string]: HealthUnit[];
+}

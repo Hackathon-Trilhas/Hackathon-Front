@@ -145,6 +145,12 @@
   box-shadow: 0 0 0 1px var(--green-200);
 }
 
+select {
+  padding: 2px;
+  font-size: 14px;
+  line-height: 1; /* Defina para 1 ou `normal` */
+}
+
 .form-help {
   font-size: 0.75rem;
   color: var(--green-600);

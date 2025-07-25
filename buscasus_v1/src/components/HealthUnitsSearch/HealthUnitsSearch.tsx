@@ -246,13 +246,13 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                     value={municipio}
                                     onChange={(e) => setMunicipio(e.target.value)}
                                     className="form-select">
-                                    <option value="todos">Todos os municípios</option>
+                                    <option value="">Selecione aqui</option>
                                     {municipios.map(m => (
                                         <option key={m} value={m}>{m}</option>
                                     ))}
                                 </select>   
                                 <small className="form-help">
-                                    Escolha um município específico ou mantenha "Todos" para buscar em toda a região
+                                    Escolha um município específico
                                 </small>
                             </div>
                         </div>
