@@ -1,12 +1,10 @@
 .container-mapa {
   position: relative;
   width: 100%;
-  height: auto;
-  min-height: 300px;
+  height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 .mapa-google {
   border: none;
@@ -24,6 +22,37 @@
   width: 100%;
   height: 350px;
 }
+.map-view {
+  flex: 1;
+  min-height: 400px;
+}
+/* Overlay com desfoque */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
 .modal-endereco.obrigatorio {
   position: fixed;
   top: 50%;
@@ -35,7 +64,20 @@
   background-color: white;
   padding: 1.5rem;
   border-radius: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 .conteudo-modal {
   display: flex;
@@ -44,30 +86,37 @@
 }
 .titulo-modal {
   font-size: 1.25rem;
-  color: #333;
+  color: #2e7d32;
   margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-align: center;
 }
 .texto-modal {
   color: #555;
   font-size: 0.95rem;
+  text-align: center;
+  line-height: 1.5;
 }
 .campo-endereco {
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 2px solid #e0e0e0;
   border-radius: 0.5rem;
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 .campo-endereco:focus {
   outline: none;
   border-color: #4CAF50;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  transform: translateY(-1px);
 }
 .texto-ajuda {
   font-size: 0.8rem;
   color: #777;
   font-style: italic;
+  text-align: center;
 }
 .container-botoes {
   display: flex;
