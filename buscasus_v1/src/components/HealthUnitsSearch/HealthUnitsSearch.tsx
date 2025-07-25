@@ -250,7 +250,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                     {municipios.map(m => (
                                         <option key={m} value={m}>{m}</option>
                                     ))}
-                                </select>
+                                </select>   
                                 <small className="form-help">
                                     Escolha um município específico ou mantenha "Todos" para buscar em toda a região
                                 </small>

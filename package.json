@@ -1,1 +1,5 @@
-{}
+{
+  "dependencies": {
+    "@typebot.io/react": "^0.8.15"
+  }
+}
