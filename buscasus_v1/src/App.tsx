@@ -115,18 +115,18 @@ const App: React.FC = () => {
       
       
       <Bubble
-        typebot="faq-endyvb9"
-        apiHost="https://typebot.io"
+        typebot={process.env.REACT_APP_TYPEBOT_ID || "faq-endyvb9"}
+        apiHost={process.env.REACT_APP_TYPEBOT_API_HOST || "https://typebot.io"}
         previewMessage={{
           message: "Tire sua Dúvida!",
           autoShowDelay: 3000,
-          avatarUrl:
+          avatarUrl: process.env.REACT_APP_TYPEBOT_AVATAR_URL ||
             "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/hostAvatar?v=1753447962746",
         }}
         theme={{
           button: {
             backgroundColor: "#D1FAE5",
-            customIconSrc:
+            customIconSrc: process.env.REACT_APP_TYPEBOT_ICON_URL ||
               "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/bubble-icon?v=1753457917053",
           },
           previewMessage: { backgroundColor: "#D1FAE5", textColor: "#000" },
