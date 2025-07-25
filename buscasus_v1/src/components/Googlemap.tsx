@@ -229,26 +229,29 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage }: 
         </div>
       </div>
       {!addressConfirmed && (
-        <div className="modal-endereco obrigatorio">
-          <div className="conteudo-modal">
-            <h3 className="titulo-modal">📍 Digite seu Endereço Completo</h3>
-            <p className="texto-modal">
-              Por favor, digite seu endereço completo para continuar:
-            </p>
-            <input
-              ref={addressInputRef}
-              type="text"
-              placeholder="Ex: Rua Exemplo, 123, Bairro, Cidade"
-              className="campo-endereco"
-              required/>
-            <p className="texto-ajuda">Digite até ver sugestões de endereços e selecione o correto</p>
+        <>
+          <div className="modal-overlay"></div>
+          <div className="modal-endereco obrigatorio">
+            <div className="conteudo-modal">
+              <h3 className="titulo-modal">📍 Digite seu Endereço Completo</h3>
+              <p className="texto-modal">
+                Por favor, digite seu endereço completo para continuar:
+              </p>
+              <input
+                ref={addressInputRef}
+                type="text"
+                placeholder="Ex: Rua Exemplo, 123, Bairro, Cidade"
+                className="campo-endereco"
+                required/>
+              <p className="texto-ajuda">Digite até ver sugestões de endereços e selecione o correto</p>
+            </div>
           </div>
-        </div>
+        </>
       )}
       <div
         ref={mapRef}
         className={`map-view ${mapLoaded ? 'visible' : 'hidden'}`}
-        style={{ height: '500px', width: '100%' }}/>
+        style={{ height: '100%', width: '100%' }}/>
       {addressConfirmed && (
         <div className="container-botoes">
           <button
