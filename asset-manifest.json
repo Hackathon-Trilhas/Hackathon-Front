@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/Hackathon-Front/buscasus_v1/static/css/main.98c1d54b.css",
+    "main.js": "/Hackathon-Front/buscasus_v1/static/js/main.046a7f14.js",
+    "static/js/305.ffdbb72e.chunk.js": "/Hackathon-Front/buscasus_v1/static/js/305.ffdbb72e.chunk.js",
+    "static/media/home.png": "/Hackathon-Front/buscasus_v1/static/media/home.fec4f6dbe6714fdd375e.png",
+    "static/media/icon2.png": "/Hackathon-Front/buscasus_v1/static/media/icon2.7719de5eba638b4c12d0.png",
+    "static/media/inova.png": "/Hackathon-Front/buscasus_v1/static/media/inova.be651b76a69d32146a32.png",
+    "static/media/secti.png": "/Hackathon-Front/buscasus_v1/static/media/secti.030ee25fe41ffb042578.png",
+    "index.html": "/Hackathon-Front/buscasus_v1/index.html",
+    "main.98c1d54b.css.map": "/Hackathon-Front/buscasus_v1/static/css/main.98c1d54b.css.map",
+    "main.046a7f14.js.map": "/Hackathon-Front/buscasus_v1/static/js/main.046a7f14.js.map",
+    "305.ffdbb72e.chunk.js.map": "/Hackathon-Front/buscasus_v1/static/js/305.ffdbb72e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.98c1d54b.css",
+    "static/js/main.046a7f14.js"
+  ]
+}
