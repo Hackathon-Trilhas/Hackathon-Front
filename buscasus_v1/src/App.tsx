@@ -116,7 +116,7 @@ const App: React.FC = () => {
           typebot="faq-endyvb9"
           apiHost="https://typebot.io"
           previewMessage={{
-            message: "Tire sua Dúvida!",
+            message: "Tire sua Dúvida!!",
             autoShowDelay: 3000,
             avatarUrl:
               "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/hostAvatar?v=1753447962746",
