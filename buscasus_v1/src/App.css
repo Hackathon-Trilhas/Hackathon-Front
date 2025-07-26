@@ -503,13 +503,13 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    background-color: #8AE7FD;
     position: absolute;
     top: 60px;
     right: 0;
     left: 0;
     padding: 1rem;
     z-index: 1000;
+    background-color: var(--primary-dark);
   }
   .nav.open {
     display: flex;
@@ -520,6 +520,13 @@ body {
     right: 1rem;
     top: 1.5rem;
     z-index: 1001;
+  }
+
+}
+@media (max-width: 1024px){
+  .hero-background{
+    background-image: none !important;
+    display: none;
   }
 }
 
@@ -544,13 +551,11 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* Estilo para que o Typebot apareça */
+
 #typebot-bubble {
   z-index: 99999 !important;
   position: fixed !important;
 }
-
-/* Para o bubble do typebot apareçer */
 [data-testid="bubble"],
 .typebot-bubble {
   z-index: 99999 !important;
