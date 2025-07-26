@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import "./App.css";
 import homeImage from "./images/home.png";
 import iconImage from "./images/icon2.png";
@@ -102,6 +102,7 @@ const App: React.FC = () => {
               </div>
             </div>
           </section>
+          <Footer />
         </>
       ) : (
         <div className="modal-wrapper">
@@ -111,28 +112,27 @@ const App: React.FC = () => {
           </Routes>
         </div>
       )}
-      <section>
-        <Bubble
-          typebot="faq-endyvb9"
-          apiHost="https://typebot.io"
-          previewMessage={{
-            message: "Tire sua Dúvida!!",
-            autoShowDelay: 3000,
-            avatarUrl:
-              "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/hostAvatar?v=1753447962746",
-          }}
-          theme={{
-            button: {
-              backgroundColor: "#D1FAE5",
-              customIconSrc:
-                "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/bubble-icon?v=1753457917053",
-            },
-            previewMessage: { backgroundColor: "#D1FAE5", textColor: "#000" },
-          }}
-        />
-      </section>
-      <Footer />
-
+      
+      
+      <Bubble
+        typebot={process.env.REACT_APP_TYPEBOT_ID || "faq-endyvb9"}
+        apiHost={process.env.REACT_APP_TYPEBOT_API_HOST || "https://typebot.io"}
+        previewMessage={{
+          message: "Tire sua Dúvida!",
+          autoShowDelay: 3000,
+          avatarUrl: process.env.REACT_APP_TYPEBOT_AVATAR_URL ||
+            "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/hostAvatar?v=1753447962746",
+        }}
+        theme={{
+          button: {
+            backgroundColor: "#D1FAE5",
+            customIconSrc: process.env.REACT_APP_TYPEBOT_ICON_URL ||
+              "https://s3.typebot.io/public/workspaces/cm6ff7j1v0016la03qkghe8f9/typebots/cx0019o0d4ojqk141endyvb9/bubble-icon?v=1753457917053",
+          },
+          previewMessage: { backgroundColor: "#D1FAE5", textColor: "#000" },
+        }}
+      />
+      
       {showConsulta && (
         <div className="modal-overlay" onClick={() => setShowConsulta(false)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', overflow: 'hidden', zIndex: 1000 }}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', maxHeight: '100vh', overflowY: 'auto' }}>

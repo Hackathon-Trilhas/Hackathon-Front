@@ -543,3 +543,16 @@ body {
   backdrop-filter: blur(12px);
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
+
+/* Estilo para que o Typebot apareça */
+#typebot-bubble {
+  z-index: 99999 !important;
+  position: fixed !important;
+}
+
+/* Para o bubble do typebot apareçer */
+[data-testid="bubble"],
+.typebot-bubble {
+  z-index: 99999 !important;
+  position: fixed !important;
+}
