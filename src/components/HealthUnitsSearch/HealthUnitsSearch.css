@@ -1,0 +1,447 @@
+/* HealthUnitsSearch Component - CSS Puro */
+
+/* Variáveis CSS */
+:root {
+  --primary: #34D399;         
+  --primary-dark: #059669;    
+  --background: #F0FFF4;      
+  --accent-light: #D1FAE5;    
+  --text-dark: #064E3B;       
+  --text-light: #666666; 
+  --white: #FFFFFF;
+  --gray-50: #f9fafb;
+  --gray-200: #e5e7eb;
+  --gray-600: #4b5563;
+  --green-50: #f0fdf4;
+  --green-100: #dcfce7;
+  --green-200: #bbf7d0;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+  --green-800: #166534;
+  --green-900: #14532d;
+}
+
+
+.health-search-container {
+  min-height: 100vh;
+  background: var(--green-50);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+
+.close-button {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  background: var(--white);
+  border-radius: 50%;
+  border: 2px solid var(--green-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green-700);
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.close-button:hover {
+  background: var(--green-500);
+  color: var(--white);
+  transform: scale(1.05);
+}
+
+
+.search-header {
+  background: var(--primary-dark);
+  padding: 32px 0;
+  text-align: center;
+}
+
+.search-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: var(--white);
+  margin: 0;
+}
+
+.search-subtitle {
+  color: var(--white);
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+
+.main-layout {
+  display: flex;
+  height: calc(100vh - 120px); /* Ajustando para o header */
+}
+
+
+.left-column {
+  width: 50%;
+  padding: 16px;
+  overflow-y: auto;
+  border-right: 1px solid var(--green-200);
+}
+
+
+.right-column {
+  width: 50%;
+  padding: 16px;
+}
+
+
+.filters-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--green-200);
+}
+
+.filters-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--green-800);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green-800);
+  margin-bottom: 4px;
+}
+
+.form-select {
+  width: 100%;
+  padding: 8px;
+  color: var(--green-900);
+  background: var(--white);
+  border: 2px solid var(--green-200);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: var(--green-500);
+  box-shadow: 0 0 0 1px var(--green-200);
+}
+
+select {
+  padding: 2px;
+  font-size: 14px;
+  line-height: 1; /* Defina para 1 ou `normal` */
+}
+
+.form-help {
+  font-size: 0.75rem;
+  color: var(--green-600);
+  margin-top: 4px;
+  display: block;
+}
+
+
+.results-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--green-200);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.results-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--green-200);
+}
+
+.results-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--green-800);
+  margin: 0;
+}
+
+.results-content {
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+
+.loading-container,
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 16px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--green-200);
+  border-top: 4px solid var(--green-500);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 1.125rem;
+  color: var(--green-800);
+  font-weight: 500;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  font-size: 1.125rem;
+  color: var(--gray-600);
+  margin-bottom: 8px;
+}
+
+.empty-subtext {
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.results-summary {
+  background: var(--green-100);
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.results-summary-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--green-800);
+  margin: 0;
+}
+
+.municipio-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.municipio-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--green-800);
+  border-bottom: 2px solid var(--green-200);
+  padding-bottom: 8px;
+  margin: 0;
+}
+
+.units-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unit-card {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.unit-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: var(--green-300);
+}
+
+.unit-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--green-700);
+  margin: 0 0 8px 0;
+}
+
+.unit-address,
+.unit-phone {
+  color: var(--gray-600);
+  margin: 0 0 8px 0;
+  font-size: 0.875rem;
+}
+
+.unit-phone {
+  margin-bottom: 12px;
+}
+
+.route-button {
+  background: var(--green-600);
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+
+.route-button:hover {
+  background: var(--green-700);
+}
+
+/* Mapa */
+.map-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--green-200);
+  height: 100%;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--green-200);
+}
+
+.map-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--green-800);
+  margin: 0;
+}
+
+.map-content {
+  padding: 0;
+  flex: 1;
+}
+
+
+.results-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.results-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.results-content::-webkit-scrollbar-thumb {
+  background: var(--green-400);
+  border-radius: 3px;
+}
+
+.results-content::-webkit-scrollbar-thumb:hover {
+  background: var(--green-600);
+}
+
+/* Google Places Autocomplete */
+.pac-container {
+  z-index: 10000 !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 8px 8px;
+}
+
+.pac-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.pac-item:hover {
+  background-color: #f7fafc;
+}
+
+.pac-item-query {
+  font-size: 0.9rem;
+  color: #2d3748;
+}
+
+
+@media (max-width: 1024px) {
+  .main-layout {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .left-column,
+  .right-column {
+    width: 100%;
+    border-right: none;
+  }
+  
+  .right-column {
+    border-top: 1px solid var(--green-200);
+  }
+  
+  .map-card {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-title {
+    font-size: 1.875rem;
+  }
+  
+  .filters-card,
+  .results-card,
+  .map-card {
+    margin: 8px;
+    padding: 12px;
+  }
+  
+  .left-column,
+  .right-column {
+    padding: 8px;
+  }
+  
+  .close-button {
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
