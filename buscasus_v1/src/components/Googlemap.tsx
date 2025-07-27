@@ -139,8 +139,8 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
             addressInputRef.current.value = "";
         }
         setSelectedPlace(null);
-        setAutocomplete(null); // AQUI ESTÁ A CORREÇÃO
     };
+
     const clearRoute = () => {
         if (directionsRenderer) {
             directionsRenderer.set("directions", null);
@@ -160,12 +160,6 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
             map.setZoom(13);
         }
         setAddressConfirmed(false);
-    };
-    const handleCancelAddress = () => {
-        if (addressInputRef.current) {
-            addressInputRef.current.value = "";
-        }
-        setSelectedPlace(null);
     };
 
     const handleCloseModal = () => {
