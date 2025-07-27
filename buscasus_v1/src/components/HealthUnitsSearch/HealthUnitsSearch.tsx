@@ -1,11 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchHealthUnits, fetchMunicipios } from '../../api';
 import GoogleMap from "../Googlemap";
-import  userLocation  from "../Googlemap";
 import MessageModal from "../MessageModal";
 import Footer from "../Footer/Footer";
 import './HealthUnitsSearch.css';
-
 interface HealthUnit {
     id: string;
     displayName?: {
@@ -14,34 +12,23 @@ interface HealthUnit {
     formattedAddress?: string;
     nationalPhoneNumber?: string;
 }
-
 interface HealthUnitSearchProps {
     onClose?: () => void;
 }
-
 const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
-    
     const [category, setCategory] = useState<string>('');
-    const [municipio, setMunicipio] = useState<string>('todos');
-    const [municipios, setMunicipios] = useState<string[]>([]);
-    
-   
+    const [userPlaceId, setUserPlaceId] = useState<string>('');
     const [healthUnits, setHealthUnits] = useState<Record<string, HealthUnit[]>>({});
     const [totalResults, setTotalResults] = useState<number>(0);
-    
-   
     const [loading, setLoading] = useState<boolean>(false);
     const [modalMessage, setModalMessage] = useState<string>('');
     const [showModal, setShowModal] = useState<boolean>(false);
-    
-    
     const [selectedDestination, setSelectedDestination] = useState<{
         place_id: string;
         name: string;
         formatted_address: string;
     } | null>(null);
-
-  
+    const [isAddressConfirmed, setIsAddressConfirmed] = useState<boolean>(false);
     const categories = [
         { value: "Clínica Geral", label: "Clínica Geral" },
         { value: "Hospital", label: "Hospital" },
@@ -65,50 +52,46 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         setModalMessage(message);
         setShowModal(true);
     };
-    const populateMunicipios = useCallback(async () => {
+    const handleAddressConfirmed = (city: string, place_id: string) => {
+        setUserPlaceId(place_id);
+        setIsAddressConfirmed(true);
+    };
+    const handleSearch = useCallback(async () => {
+        if (!category || !userPlaceId) {
+            showMessageModal("Por favor, selecione uma categoria e confirme seu endereço.");
+            return;
+        }
+        setLoading(true);
         try {
-            const municipiosData = await fetchMunicipios();
-            setMunicipios(municipiosData.sort());
+            // AQUI VOCÊ FARIA A CHAMADA PARA A NOVA API DO BACK-END
+            // const data = await axios.post('/api/places/sugerir-por-local', { place_id: userPlaceId, category });
+            // Por enquanto, usaremos a função mock para simular a resposta
+            const dataByMunicipality = await fetchHealthUnits(category, "cidade-mock");
+            setHealthUnits(dataByMunicipality);
+            const total = (Object.values(dataByMunicipality) as HealthUnit[][])
+               .reduce((sum, unitsArray) => sum + unitsArray.length, 0);
+            setTotalResults(total);
         } catch (e) {
-            showMessageModal("");
+            console.error("Erro ao buscar unidades:", e);
+            showMessageModal("Ocorreu um erro ao buscar os dados.");
+            setHealthUnits({});
+            setTotalResults(0);
+        } finally {
+            setLoading(false);
         }
-    }, []);
-    const fetchUnits = useCallback(async () => {
-        if (category && municipio) {
-            setLoading(true);
-            try {
-                const dataByMunicipality = await fetchHealthUnits(category, municipio);
-                setHealthUnits(dataByMunicipality);
-                const total = (Object.values(dataByMunicipality) as HealthUnit[][])
-                    .reduce((sum, unitsArray) => sum + unitsArray.length, 0);
-                setTotalResults(total);
-            } catch (e) {
-                console.error("Erro ao buscar unidades:", e);
-                showMessageModal("Ocorreu um erro ao buscar os dados.");
-                setHealthUnits({});
-                setTotalResults(0);
-            } finally {
-                setLoading(false);
-            }
-        }
-        if (!category && !municipio) {return}
-
-    }, [category, municipio]);
+    }, [category, userPlaceId]);
     const handleTraceRoute = (unit: HealthUnit) => {
         setSelectedDestination({
             place_id: unit.id,
             name: unit.displayName?.text || "Nome não disponível",
             formatted_address: unit.formattedAddress || "Não informado",
         });
+        // AQUI VOCÊ FARIA A CHAMADA PARA A NOVA API DE REGISTRO
+        // axios.post('/api/places/registrar', { unit_id: unit.id });
     };
-    useEffect(() => {
-        populateMunicipios();
-    }, [populateMunicipios]);
-    useEffect(() => {
-        if (category) {
-            fetchUnits();
-        }
-    }, [category, municipio, fetchUnits]);
+    const handleClearRoute = () => {
+        setSelectedDestination(null);
+    }
     const renderResults = () => {
         if (loading) {
             return (
@@ -118,7 +101,14 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                 </div>
             );
         }
-
+        if (!isAddressConfirmed) {
+            return (
+                <div className="empty-container">
+                    <div className="empty-icon">📋</div>
+                    <p className="empty-text">Confirme seu endereço para começar a busca.</p>
+                </div>
+            );
+        }
         if (!category) {
             return (
                 <div className="empty-container">
@@ -127,8 +117,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                 </div>
             );
         }
-
-        if (Object.keys(healthUnits).length === 0) {
+        if (Object.keys(healthUnits).length === 0 && !loading) {
             return (
                 <div className="empty-container">
                     <div className="empty-icon">❌</div>
@@ -137,23 +126,18 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                 </div>
             );
         }
-
         return (
             <div className="results-list">
-                {/* Total de resultados */}
                 <div className="results-summary">
                     <p className="results-summary-text">
                         ✅ Encontradas {totalResults} unidade{totalResults !== 1 ? 's' : ''} de saúde
                     </p>
                 </div>
-
-                {/* Lista de municípios e unidades */}
                 {Object.keys(healthUnits).map((municipioName) => (
                     <div key={municipioName} className="municipio-section">
                         <h3 className="municipio-title">
                             📍 {municipioName} ({healthUnits[municipioName].length} unidade{healthUnits[municipioName].length !== 1 ? 's' : ''})
                         </h3>
-                        
                         <div className="units-list">
                             {healthUnits[municipioName].map((unit) => (
                                 <div key={unit.id} className="unit-card">
@@ -184,9 +168,8 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
     };
     return (
         <div className="health-search-container">
-            {/* Botão de fechar */}
             {onClose && (
-                <button 
+                <button
                     className="close-button"
                     onClick={onClose}
                     aria-label="Fechar busca de unidades de saúde"
@@ -194,8 +177,6 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                     ✕
                 </button>
             )}
-
-            {/* Header */}
             <div className="search-header">
                 <h1 className="search-title">
                     🏥 Buscar Unidades de Saúde
@@ -204,19 +185,13 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                     Encontre unidades de saúde próximas a você
                 </p>
             </div>
-
-            {/* Layout principal - Duas colunas */}
             <div className="main-layout">
-                {/* Coluna esquerda - Filtros e Resultados */}
                 <div className="left-column">
-                    {/* Card de filtros */}
                     <div className="filters-card">
                         <h2 className="filters-title">
                             🔍 Filtros de Busca
                         </h2>
-                        
                         <div>
-                            {/* Categoria */}
                             <div className="form-group">
                                 <label htmlFor="category-select" className="form-label">
                                     Selecione a Categoria:
@@ -225,7 +200,8 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
                                     className="form-select"
-                                    id="category-select">
+                                    id="category-select"
+                                    disabled={!isAddressConfirmed}>
                                     <option value="">Selecione uma categoria</option>
                                     {categories.map(cat => (
                                         <option key={cat.value} value={cat.value}>
@@ -237,11 +213,16 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                     Escolha o tipo de unidade de saúde que você está procurando
                                 </small>
                             </div>
-
+                            {isAddressConfirmed && (
+                                <button
+                                    onClick={handleSearch}
+                                    className="search-button"
+                                    disabled={!category}>
+                                    Buscar Unidades
+                                </button>
+                            )}
                         </div>
                     </div>
-
-                    {/* Resultados */}
                     <div className="results-card">
                         <div className="results-header">
                             <h2 className="results-title">
@@ -253,8 +234,6 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                         </div>
                     </div>
                 </div>
-
-                {/* Coluna direita - Mapa */}
                 <div className="right-column">
                     <div className="map-card">
                         <div className="map-header">
@@ -265,23 +244,19 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                         <div className="map-content">
                             <GoogleMap
                                 destination={selectedDestination}
-                                onRouteCleared={() => setSelectedDestination(null)}
+                                onRouteCleared={handleClearRoute}
                                 showMessage={showMessageModal}
-                                onAddressConfirmed={(city) => setMunicipio(city)}
+                                onAddressConfirmed={handleAddressConfirmed}
                             />
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Modal de mensagem */}
             <MessageModal
                 message={modalMessage}
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
             />
-
-            {/* Footer */}
             <Footer />
         </div>
     );
