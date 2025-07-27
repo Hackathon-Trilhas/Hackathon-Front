@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchHealthUnits, fetchMunicipios } from '../../api';
+import { fetchHealthUnits } from '../../api'; // Apenas fetchHealthUnits é necessário aqui
 import GoogleMap from "../Googlemap";
 import MessageModal from "../MessageModal";
 import Footer from "../Footer/Footer";
 import './HealthUnitsSearch.css';
+
 interface HealthUnit {
     id: string;
     displayName?: {
@@ -12,12 +13,16 @@ interface HealthUnit {
     formattedAddress?: string;
     nationalPhoneNumber?: string;
 }
+
 interface HealthUnitSearchProps {
     onClose?: () => void;
 }
+
 const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
     const [category, setCategory] = useState<string>('');
     const [userPlaceId, setUserPlaceId] = useState<string>('');
+    // Novo estado para armazenar o nome da cidade/município do usuário
+    const [userCity, setUserCity] = useState<string>('');
     const [healthUnits, setHealthUnits] = useState<Record<string, HealthUnit[]>>({});
     const [totalResults, setTotalResults] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
@@ -29,6 +34,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         formatted_address: string;
     } | null>(null);
     const [isAddressConfirmed, setIsAddressConfirmed] = useState<boolean>(false);
+
     const categories = [
         { value: "Clínica Geral", label: "Clínica Geral" },
         { value: "Hospital", label: "Hospital" },
@@ -36,6 +42,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         { value: "Posto de Saúde", label: "Posto de Saúde" },
         { value: "Laboratório", label: "Laboratório" }
     ];
+
     useEffect(() => {
         if (!onClose) return;
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -48,26 +55,36 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [onClose]);
+
     const showMessageModal = (message: string) => {
         setModalMessage(message);
         setShowModal(true);
     };
+
+    // Atualizado para capturar e armazenar a cidade
     const handleAddressConfirmed = (city: string, place_id: string) => {
+        setUserCity(city); // Armazena a cidade retornada pelo mapa
         setUserPlaceId(place_id);
         setIsAddressConfirmed(true);
     };
+
+    // Atualizado para usar a API real com a cidade do usuário
     const handleSearch = useCallback(async () => {
-        if (!category || !userPlaceId) {
+        if (!category || !userPlaceId || !userCity) {
             showMessageModal("Por favor, selecione uma categoria e confirme seu endereço.");
             return;
         }
+
         setLoading(true);
         try {
-            const dataByMunicipality = await fetchHealthUnits(category, "cidade-mock");
+            // Troca do mock pela chamada da API real usando userCity
+            const dataByMunicipality = await fetchHealthUnits(category, userCity);
             setHealthUnits(dataByMunicipality);
+            
             const total = (Object.values(dataByMunicipality) as HealthUnit[][])
                 .reduce((sum, unitsArray) => sum + unitsArray.length, 0);
             setTotalResults(total);
+
         } catch (e) {
             console.error("Erro ao buscar unidades:", e);
             showMessageModal("Ocorreu um erro ao buscar os dados.");
@@ -76,18 +93,21 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         } finally {
             setLoading(false);
         }
-    }, [category, userPlaceId]);
+    }, [category, userPlaceId, userCity]); // Adicionado userCity como dependência
+
     const handleTraceRoute = (unit: HealthUnit) => {
         setSelectedDestination({
             place_id: unit.id,
             name: unit.displayName?.text || "Nome não disponível",
             formatted_address: unit.formattedAddress || "Não informado",
         });
-       
     };
+
     const handleClearRoute = () => {
         setSelectedDestination(null);
     }
+    
+    // Nenhuma alteração necessária no JSX abaixo, ele já reflete o estado
     const renderResults = () => {
         if (loading) {
             return (
@@ -171,6 +191,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
             </div>
         );
     };
+
     return (
         <div className="health-search-container">
             {onClose && (
@@ -259,4 +280,5 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         </div>
     );
 };
+
 export default HealthUnitsSearch;
