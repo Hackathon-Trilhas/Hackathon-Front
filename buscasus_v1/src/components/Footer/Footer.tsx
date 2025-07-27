@@ -24,10 +24,9 @@ const Footer: React.FC = () => {
       <div className="footer-contact">
         Contato: 
         <a 
-          href="mailto:buscasusgp2@gmail.com" 
           className="footer-contact-link"
         >
-          buscasusgp2@gmail.com
+          buscasaude@gmail.com
         </a>
       </div>
     </footer>

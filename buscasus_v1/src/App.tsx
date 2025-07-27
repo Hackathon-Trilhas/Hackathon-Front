@@ -70,10 +70,10 @@ const App: React.FC = () => {
             <div className="container">
               <div className="hero-content">
                 <div className="hero-left">
-                  <h1 className="hero-title">BuscaSUS</h1>
+                  <h1 className="hero-title">BuscaSaude</h1>
                   <h2 className="hero-subtitle">Acesse informações relevantes de saúde</h2>
                   <p className="hero-description">
-                    O BuscaSUS é um portal digital que facilita o acesso aos serviços do SUS. Consulte vacinação, exames,
+                    O BuscaSaude é um portal digital que facilita o acesso aos serviços de saúde. Consulte vacinação, exames,
                     atendimentos e encontre unidades de saúde de forma simples, rápida e integrada.
                   </p>
                   <div className="hero-buttons">
