@@ -148,6 +148,14 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                             📞 {unit.nationalPhoneNumber}
                                         </p>
                                     )}
+                                    <p>
+                                        🕒 Horário de Funcionamento: 8:00 às 17:00
+                                    </p>
+                                    <div className='tag-container'>
+                                        <h4 className='tag-tipo'>Estadual</h4>
+                                        <h4 className='tag-tipo'>Público</h4>
+                                        <h4 className='tag-tipo'>Pronto Atendimento</h4>
+                                    </div>
                                     <button
                                         onClick={() => handleTraceRoute(unit)}
                                         className="route-button"
@@ -156,6 +164,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                     </button>
                                 </div>
                             ))}
+
                         </div>
                     </div>
                 ))}
@@ -173,14 +182,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                     ✕
                 </button>
             )}
-            <div className="search-header">
-                <h1 className="search-title">
-                    🏥 Buscar Unidades de Saúde
-                </h1>
-                <p className="search-subtitle">
-                    Encontre unidades de saúde próximas a você
-                </p>
-            </div>
+            
             <div className="main-layout">
                 <div className="left-column">
                     <div className="filters-card">

@@ -31,7 +31,6 @@
 }
 
 
-/* Botão de fechar para a busca de unidades de saúde */
 .health-search-close-button {
   position: fixed;
   top: 24px;
@@ -59,13 +58,6 @@
   transform: scale(1.05);
 }
 
-
-.search-header {
-  background: var(--primary-dark);
-  padding: 32px 0;
-  text-align: center;
-}
-
 .search-title {
   font-size: 2.25rem;
   font-weight: bold;
@@ -82,7 +74,7 @@
 
 .main-layout {
   display: flex;
-  height: calc(100vh - 120px); /* Ajustando para o header */
+  height: calc(100vh - 120px); 
 }
 
 
@@ -309,6 +301,32 @@ select {
   margin-bottom: 12px;
 }
 
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+
+
+  .tag-tipo {
+    background: var(--primary);
+    color: var(--green-800);
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+  }
+  
+}
+
+.tag {
+  background: var(--green-100);
+  color: var(--green-800);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
 .route-button {
   background: var(--green-600);
   color: var(--white);
@@ -322,6 +340,7 @@ select {
   align-items: center;
   gap: 8px;
   font-size: 0.875rem;
+  margin-top: 8px;
 }
 
 .route-button:hover {
