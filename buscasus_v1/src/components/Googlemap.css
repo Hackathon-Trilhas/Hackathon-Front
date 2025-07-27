@@ -1,3 +1,15 @@
+:root {
+  --primary: #34D399;         
+  --primary-dark: #059669;    
+  --background: #F0FFF4;      
+  --accent-light: #D1FAE5;    
+  --text-dark: #064E3B;       
+  --text-light: #666666; 
+  --white: #FFFFFF;
+  --azul-claro: #689CFF;
+}
+
+
 .container-mapa {
   position: relative;
   width: 100%;
@@ -118,6 +130,43 @@
   font-style: italic;
   text-align: center;
 }
+
+/* Botões do modal */
+.botoes-modal {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.botao-cancelar,
+.botao-confirmar {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.botao-cancelar {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.botao-cancelar:hover {
+  background-color: #e5e7eb;
+}
+
+.botao-confirmar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.botao-confirmar:hover {
+  background-color: #3d8b40;
+}
 .container-botoes {
   display: flex;
   justify-content: center;
@@ -147,6 +196,40 @@
   font-size: 0.85rem;
   color: #666;
 }
+
+.botoes-modal {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 1rem;
+
+  .botao-confirmar {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    &:hover {
+      background-color: var(--primary-dark);
+    }
+  }
+
+  .botao-cancelar {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
+} 
+
 @media (max-width: 1024px) {
   .mapa-google.desktop {
     height: 450px;

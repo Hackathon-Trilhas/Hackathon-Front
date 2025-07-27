@@ -9,6 +9,7 @@ interface GoogleMapProps {
   } | null;
   onRouteCleared: () => void;
   showMessage: (message: string) => void;
+  onAddressConfirmed?: (city: string) => void;
 }
 declare global {
   interface Window {
@@ -16,7 +17,7 @@ declare global {
     initMap: () => void;
   }
 }
-export default function GoogleMap({ destination, onRouteCleared, showMessage }: GoogleMapProps) {
+export default function GoogleMap({ destination, onRouteCleared, showMessage, onAddressConfirmed }: GoogleMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
   const [map, setMap] = useState<any>(null);
@@ -30,6 +31,7 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage }: 
   const [autocomplete, setAutocomplete] = useState<any>(null);
   const [addressConfirmed, setAddressConfirmed] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
   useEffect(() => {
     const checkIfMapsLoaded = () => {
       if (window.google && window.google.maps) {
@@ -117,44 +119,22 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage }: 
     };
   }, []);
   useEffect(() => {
-    if (window.google && addressInputRef.current && !autocomplete) {
-      const autocompleteInstance = new window.google.maps.places.Autocomplete(addressInputRef.current, {
-        types: ["address"],
-        componentRestrictions: { country: "BR" },
-        fields: ["place_id", "geometry", "name", "formatted_address"],
-      });
-      autocompleteInstance.addListener("place_changed", () => {
-        const place = autocompleteInstance.getPlace();
-        if (place.geometry && place.geometry.location) {
-          const newLocation = {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
-          };
-          setUserLocation(newLocation);
-          setAddressConfirmed(true);
-          if (map) {
-            map.setCenter(newLocation);
-            map.setZoom(16);
-            if (userLocationMarker) {
-              userLocationMarker.setMap(null);
-            }
-            const marker = new window.google.maps.Marker({
-              position: newLocation,
-              map: map,
-              title: "Seu Endereço",
-              icon: {
-                url: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
-                scaledSize: new window.google.maps.Size(40, 40),
-              },
-            });
-            setUserLocationMarker(marker);
-          }
-          setLocationStatus("");
-        }
-      });
-      setAutocomplete(autocompleteInstance);
-    }
-  }, [map]);
+  if (window.google && addressInputRef.current && !autocomplete) {
+    const autocompleteInstance = new window.google.maps.places.Autocomplete(addressInputRef.current, {
+      types: ["address"],
+      componentRestrictions: { country: "BR" },
+      fields: ["place_id", "geometry", "name", "formatted_address", "address_components"], 
+    });
+    autocompleteInstance.addListener("place_changed", () => {
+      const place = autocompleteInstance.getPlace();
+      if (place.geometry && place.geometry.location) {
+        
+        setSelectedPlace(place);
+      }
+    });
+    setAutocomplete(autocompleteInstance);
+  }
+}, [map]);
   useEffect(() => {
     if (destination && directionsService && directionsRenderer && map && userLocation && addressConfirmed) {
       calculateAndDisplayRoute();
@@ -211,6 +191,61 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage }: 
     setAddressConfirmed(false);
     setLocationStatus("");
   };
+
+  const handleCancelAddress = () => {
+    
+    if (addressInputRef.current) {
+      addressInputRef.current.value = "";
+    }
+    setSelectedPlace(null);
+  };
+
+  const handleConfirmAddress = () => {
+    if (!selectedPlace) {
+      showMessage("Por favor, selecione um endereço válido da lista de sugestões.");
+      return;
+    }
+
+    const newLocation = {
+      lat: selectedPlace.geometry.location.lat(),
+      lng: selectedPlace.geometry.location.lng(),
+    };
+    setUserLocation(newLocation);
+    setAddressConfirmed(true);
+    
+    
+    let city = "";
+    for (const component of selectedPlace.address_components) {
+      if (component.types.includes("administrative_area_level_2")) {
+        city = component.long_name;
+        break;
+      }
+    }
+    
+    
+    if (onAddressConfirmed) {
+      onAddressConfirmed(city);
+    }
+
+    if (map) {
+      map.setCenter(newLocation);
+      map.setZoom(16);
+      if (userLocationMarker) {
+        userLocationMarker.setMap(null);
+      }
+      const marker = new window.google.maps.Marker({
+        position: newLocation,
+        map: map,
+        title: "Seu Endereço",
+        icon: {
+          url: "https://maps.google.com/mapfiles/ms/icons/green-dot.png",
+          scaledSize: new window.google.maps.Size(40, 40),
+        },
+      });
+      setUserLocationMarker(marker);
+    }
+    setLocationStatus("");
+  };
   return (
     <div className="container-mapa">
       {!mapLoaded && (
@@ -244,6 +279,10 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage }: 
                 className="campo-endereco"
                 required/>
               <p className="texto-ajuda">Digite até ver sugestões de endereços e selecione o correto</p>
+              <div className="botoes-modal">
+                <button className="botao-cancelar" onClick={handleCancelAddress}>Cancelar</button>
+                <button className="botao-confirmar" onClick={handleConfirmAddress}>Confirmar Endereço</button>
+              </div>
             </div>
           </div>
         </>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchHealthUnits, fetchMunicipios } from '../../api';
 import GoogleMap from "../Googlemap";
+import  userLocation  from "../Googlemap";
 import MessageModal from "../MessageModal";
 import Footer from "../Footer/Footer";
 import './HealthUnitsSearch.css';
@@ -73,24 +74,25 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         }
     }, []);
     const fetchUnits = useCallback(async () => {
-        if (!category) {
-            return;
+        if (category && municipio) {
+            setLoading(true);
+            try {
+                const dataByMunicipality = await fetchHealthUnits(category, municipio);
+                setHealthUnits(dataByMunicipality);
+                const total = (Object.values(dataByMunicipality) as HealthUnit[][])
+                    .reduce((sum, unitsArray) => sum + unitsArray.length, 0);
+                setTotalResults(total);
+            } catch (e) {
+                console.error("Erro ao buscar unidades:", e);
+                showMessageModal("Ocorreu um erro ao buscar os dados.");
+                setHealthUnits({});
+                setTotalResults(0);
+            } finally {
+                setLoading(false);
+            }
         }
-        setLoading(true);
-        try {
-            const dataByMunicipality = await fetchHealthUnits(category, municipio);
-            setHealthUnits(dataByMunicipality);
-            const total = (Object.values(dataByMunicipality) as HealthUnit[][])
-                .reduce((sum, unitsArray) => sum + unitsArray.length, 0);
-            setTotalResults(total);
-        } catch (e) {
-            console.error("Erro ao buscar unidades:", e);
-            showMessageModal("Ocorreu um erro ao buscar os dados.");
-            setHealthUnits({});
-            setTotalResults(0);
-        } finally {
-            setLoading(false);
-        }
+        if (!category && !municipio) {return}
+
     }, [category, municipio]);
     const handleTraceRoute = (unit: HealthUnit) => {
         setSelectedDestination({
@@ -236,25 +238,6 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                 </small>
                             </div>
 
-                            {/* Município */}
-                            <div className="form-group">
-                                <label htmlFor="municipio-select" className="form-label">
-                                    Selecione o Município:
-                                </label>
-                                <select
-                                    id="municipio-select"
-                                    value={municipio}
-                                    onChange={(e) => setMunicipio(e.target.value)}
-                                    className="form-select">
-                                    <option value="">Selecione aqui</option>
-                                    {municipios.map(m => (
-                                        <option key={m} value={m}>{m}</option>
-                                    ))}
-                                </select>   
-                                <small className="form-help">
-                                    Escolha um município específico
-                                </small>
-                            </div>
                         </div>
                     </div>
 
@@ -284,6 +267,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                                 destination={selectedDestination}
                                 onRouteCleared={() => setSelectedDestination(null)}
                                 showMessage={showMessageModal}
+                                onAddressConfirmed={(city) => setMunicipio(city)}
                             />
                         </div>
                     </div>
