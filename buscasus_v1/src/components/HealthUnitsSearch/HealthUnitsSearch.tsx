@@ -63,9 +63,6 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         }
         setLoading(true);
         try {
-            // AQUI VOCÊ FARIA A CHAMADA PARA A NOVA API DO BACK-END
-            // const data = await axios.post('/api/places/sugerir-por-local', { place_id: userPlaceId, category });
-            // Por enquanto, usaremos a função mock para simular a resposta
             const dataByMunicipality = await fetchHealthUnits(category, "cidade-mock");
             setHealthUnits(dataByMunicipality);
             const total = (Object.values(dataByMunicipality) as HealthUnit[][])
@@ -86,8 +83,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
             name: unit.displayName?.text || "Nome não disponível",
             formatted_address: unit.formattedAddress || "Não informado",
         });
-        // AQUI VOCÊ FARIA A CHAMADA PARA A NOVA API DE REGISTRO
-        // axios.post('/api/places/registrar', { unit_id: unit.id });
+       
     };
     const handleClearRoute = () => {
         setSelectedDestination(null);
@@ -170,7 +166,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
         <div className="health-search-container">
             {onClose && (
                 <button
-                    className="close-button"
+                    className="health-search-close-button"
                     onClick={onClose}
                     aria-label="Fechar busca de unidades de saúde"
                     title="Fechar">

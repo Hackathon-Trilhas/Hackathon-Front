@@ -31,6 +31,7 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
     const [addressConfirmed, setAddressConfirmed] = useState(false);
     const [mapLoaded, setMapLoaded] = useState(false);
     const [selectedPlace, setSelectedPlace] = useState<any>(null);
+    const [modalOpen, setModalOpen] = useState(true);
     useEffect(() => {
         const checkIfMapsLoaded = () => {
             if (window.google && window.google.maps) {
@@ -159,7 +160,17 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
             map.setZoom(13);
         }
         setAddressConfirmed(false);
-        handleCancelAddress();
+    };
+    const handleCancelAddress = () => {
+        if (addressInputRef.current) {
+            addressInputRef.current.value = "";
+        }
+        setSelectedPlace(null);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+
     };
     const handleConfirmAddress = () => {
         if (!selectedPlace) {
@@ -217,11 +228,17 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
                     )}
                 </div>
             </div>
-            {!addressConfirmed && (
+            {!addressConfirmed && modalOpen && (
                 <>
                     <div className="modal-overlay"></div>
                     <div className="modal-endereco obrigatorio">
                         <div className="conteudo-modal">
+                            <button
+                                className="modal-close-button"
+                                onClick={handleCloseModal}
+                                aria-label="Fechar modal de endereço"
+                                title="Fechar">✕
+                            </button>
                             <h3 className="titulo-modal">📍 Digite seu Endereço Completo</h3>
                             <p className="texto-modal">
                                 Por favor, digite seu endereço completo para continuar:
@@ -239,7 +256,7 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
                             </div>
                         </div>
                     </div>
-                </>
+                </> 
             )}
             <div
                 ref={mapRef}
