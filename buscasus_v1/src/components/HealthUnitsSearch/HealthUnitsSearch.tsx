@@ -66,7 +66,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
             const dataByMunicipality = await fetchHealthUnits(category, "cidade-mock");
             setHealthUnits(dataByMunicipality);
             const total = (Object.values(dataByMunicipality) as HealthUnit[][])
-               .reduce((sum, unitsArray) => sum + unitsArray.length, 0);
+                .reduce((sum, unitsArray) => sum + unitsArray.length, 0);
             setTotalResults(total);
         } catch (e) {
             console.error("Erro ao buscar unidades:", e);

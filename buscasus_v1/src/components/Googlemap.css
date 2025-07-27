@@ -221,8 +221,12 @@
 }
 .container-botoes {
   display: flex;
+  top: 0;
+  left: 0;
+  padding-left: -400px;
+  padding-top: 60vh;
   justify-content: center;
-  margin-top: 1rem;
+  position: absolute;
 }
 .botao-limpar {
   background-color: #4CAF50;
@@ -234,7 +238,6 @@
   font-size: 1rem;
   font-weight: 500;
   transition: background-color 0.3s ease;
-  display: none;
   align-items: center;
   gap: 0.5rem;
 }

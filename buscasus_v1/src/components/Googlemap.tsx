@@ -134,6 +134,13 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
                 showMessage("❌ Erro ao calcular rota. Verifique seu endereço e tente novamente.");
             });
     };
+    const handleCancelAddress = () => {
+        if (addressInputRef.current) {
+            addressInputRef.current.value = "";
+        }
+        setSelectedPlace(null);
+        setAutocomplete(null); // AQUI ESTÁ A CORREÇÃO
+    };
     const clearRoute = () => {
         if (directionsRenderer) {
             directionsRenderer.set("directions", null);
@@ -142,14 +149,17 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
             destinationMarker.setMap(null);
             setDestinationMarker(null);
         }
+        if (userLocationMarker) {
+            userLocationMarker.setMap(null);
+            setUserLocationMarker(null);
+        }
         setShowDirections(false);
         onRouteCleared();
         if (map && userLocation) {
             map.setCenter(userLocation);
-            map.setZoom(16);
+            map.setZoom(13);
         }
         setAddressConfirmed(false);
-        setModalOpen(true); 
     };
     const handleCancelAddress = () => {
         if (addressInputRef.current) {
@@ -257,7 +267,7 @@ export default function GoogleMap({ destination, onRouteCleared, showMessage, on
                     <button
                         onClick={clearRoute}
                         className="botao-limpar">
-                        🔄 Nova Busca no Mapa
+                        🔄 Novo endereço
                     </button>
                 </div>
             )}
