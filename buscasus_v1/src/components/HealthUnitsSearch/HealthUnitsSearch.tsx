@@ -4,6 +4,7 @@ import GoogleMap from "../Googlemap";
 import MessageModal from "../MessageModal";
 import Footer from "../Footer/Footer";
 import './HealthUnitsSearch.css';
+import '../Googlemap.css';
 
 interface HealthUnit {
     id: string;
@@ -87,7 +88,6 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
 
         } catch (e) {
             console.error("Erro ao buscar unidades:", e);
-            showMessageModal("Ocorreu um erro ao buscar os dados.");
             setHealthUnits({});
             setTotalResults(0);
         } finally {
@@ -235,7 +235,7 @@ const HealthUnitsSearch = ({ onClose }: HealthUnitSearchProps) => {
                             {isAddressConfirmed && (
                                 <button
                                     onClick={handleSearch}
-                                    className="search-button"
+                                    className="botao-limpar"
                                     disabled={!category}>
                                     Buscar Unidades
                                 </button>
