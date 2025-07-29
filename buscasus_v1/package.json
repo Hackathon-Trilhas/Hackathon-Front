@@ -2,7 +2,7 @@
   "name": "buscasus_v1",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sthedsyl.github.io/Hackathon-Front/buscasus_v1/",
+  "homepage": "https://sthedsyl.github.io/",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
